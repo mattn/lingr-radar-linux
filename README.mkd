@@ -8,6 +8,11 @@ Usage:
 
     python lingr-radar.py
 
+Screenshot:
+-----------
+
+![](http://gyazo.com/dddcd40cf36b82f13d61ed98703c2d69.png)
+
 Requirements:
 -------------
 
