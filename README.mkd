@@ -1,0 +1,25 @@
+lingr-radar-linux
+=================
+
+Lingr Radar for Linux
+
+Usage:
+------
+
+    python lingr-radar.py
+
+Requirements:
+-------------
+
+* [pyLingr](https://github.com/yoshiori/pyLingr) written by yoshiori
+* [gntp](https://github.com/kfdm/gntp) written by kfdm
+
+License:
+--------
+
+BSD
+
+Author:
+-------
+
+> Yasuhiro Matsumoto `<mattn.jp@gmail.com>`
