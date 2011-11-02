@@ -11,7 +11,7 @@ Usage:
 Screenshot:
 -----------
 
-![](http://gyazo.com/dddcd40cf36b82f13d61ed98703c2d69.png)
+![](http://go-gyazo.appspot.com/6515343685252026.png)
 
 Requirements:
 -------------
