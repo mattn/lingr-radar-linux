@@ -28,12 +28,12 @@ while True:
     stream = lingr.stream()
     continue
 
-  #print e
   if 'message' in e.keys():
     m = e['message']
+    i = 'icon_url' in m and m['icon_url'] or ''
     growl.notify(
       noteType='message',
       title="%s@%s" % (m['nickname'], m['room']),
       description=m['text'],
-      icon=m['icon_url'],
+      icon=i,
     )
