@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# This is based on: https://github.com/yoshiori/pyLingr
+
 import sys
 import simplejson
 import urllib
