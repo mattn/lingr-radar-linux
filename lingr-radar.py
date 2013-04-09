@@ -3,6 +3,7 @@
 import os
 import time
 import pylingr
+import collections
 from gntp.notifier import GrowlNotifier
 from pit import Pit
 
@@ -24,6 +25,8 @@ growl.register()
 
 lingr = pylingr.Lingr(config['email'], config['password'], config['api_key'])
 stream = lingr.stream()
+messageIds = collections.deque(maxlen = 5)
+
 while True:
   try:
     e = stream.next()
@@ -34,6 +37,10 @@ while True:
 
   if 'message' in e.keys():
     m = e['message']
+    mid = m['id']
+    if mid in messageIds:
+      continue
+    messageIds.append(mid)
     i = 'icon_url' in m and m['icon_url'] or ''
     growl.notify(
       noteType='message',
