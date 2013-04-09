@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import os
 import time
 import pylingr
 from gntp.notifier import GrowlNotifier
@@ -7,7 +10,8 @@ config = Pit.get(
   'lingr.com', {
     'require':{
       'email': 'email for lingr.com',
-      'password': 'password for lingr.com'
+      'password': 'password for lingr.com',
+      'api_key': 'api_key for lingr.com'
     }
   }
 )
@@ -18,7 +22,7 @@ growl = GrowlNotifier(
 )
 growl.register()
 
-lingr = pylingr.Lingr(config['email'], config['password'])
+lingr = pylingr.Lingr(config['email'], config['password'], config['api_key'])
 stream = lingr.stream()
 while True:
   try:
@@ -34,6 +38,6 @@ while True:
     growl.notify(
       noteType='message',
       title="%s@%s" % (m['nickname'], m['room']),
-      description=m['text'],
+      description=m['text'].encode('utf-8'),
       icon=i,
     )
