@@ -17,11 +17,34 @@ config = Pit.get(
   }
 )
 
-growl = GrowlNotifier(
-  applicationName="Lingr Radar",
-  notifications=['message', 'presence', 'error'],
-)
-growl.register()
+try:
+  import pynotify
+  import urllib
+  import pygtk
+  import gtk
+  pynotify.init("Lingr Radar")
+  def notify(title, message, icon):
+    n = pynotify.Notification(title, message)
+    if len(icon) > 0:
+      f = urllib.urlopen(icon)
+      data = f.read()
+      pbl = gtk.gdk.PixbufLoader()
+      pbl.write(data)
+      pbuf = pbl.get_pixbuf()
+      pbl.close()
+      n.set_icon_from_pixbuf(pbuf)
+    n.show()
+except:
+  growl = GrowlNotifier(
+    applicationName="Lingr Radar",
+    notifications=['message', 'presence', 'error'])
+  growl.register()
+  def notify(title, message, icon):
+    growl.notify(
+      noteType='message',
+      title=title,
+      description=message,
+      icon=icon)
 
 lingr = pylingr.Lingr(config['email'], config['password'], config['api_key'])
 stream = lingr.stream()
@@ -30,6 +53,8 @@ messageIds = collections.deque(maxlen = 5)
 while True:
   try:
     e = stream.next()
+  except KeyboardInterrupt:
+    break
   except:
     time.sleep(30)
     stream = lingr.stream()
@@ -41,10 +66,8 @@ while True:
     if mid in messageIds:
       continue
     messageIds.append(mid)
-    i = 'icon_url' in m and m['icon_url'] or ''
-    growl.notify(
-      noteType='message',
-      title="%s@%s" % (m['nickname'], m['room']),
-      description=m['text'].encode('utf-8'),
-      icon=i,
-    )
+    icon = 'icon_url' in m and m['icon_url'] or ''
+    notify(
+      "%s@%s" % (m['nickname'], m['room']),
+      m['text'].encode('utf-8'),
+      icon)
