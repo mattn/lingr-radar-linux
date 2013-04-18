@@ -18,6 +18,17 @@ config = Pit.get(
 )
 
 try:
+  growl = GrowlNotifier(
+    applicationName="Lingr Radar",
+    notifications=['message', 'presence', 'error'])
+  growl.register()
+  def notify(title, message, icon):
+    growl.notify(
+      noteType='message',
+      title=title,
+      description=message,
+      icon=icon)
+except:
   import pynotify
   import urllib
   import pygtk
@@ -34,17 +45,6 @@ try:
       pbl.close()
       n.set_icon_from_pixbuf(pbuf)
     n.show()
-except:
-  growl = GrowlNotifier(
-    applicationName="Lingr Radar",
-    notifications=['message', 'presence', 'error'])
-  growl.register()
-  def notify(title, message, icon):
-    growl.notify(
-      noteType='message',
-      title=title,
-      description=message,
-      icon=icon)
 
 lingr = pylingr.Lingr(config['email'], config['password'], config['api_key'])
 stream = lingr.stream()
